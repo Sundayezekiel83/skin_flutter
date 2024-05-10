@@ -3,6 +3,7 @@ import 'package:mobile_skinguru/constants/constants.dart';
 import 'package:mobile_skinguru/screens/all_appointment.dart';
 import 'package:mobile_skinguru/screens/history.dart';
 import 'package:mobile_skinguru/screens/home.dart';
+import 'package:mobile_skinguru/screens/wallet.dart';
 
 class SharedTabs extends StatefulWidget {
   const SharedTabs({super.key});
@@ -18,7 +19,7 @@ class _SharedTabsState extends State<SharedTabs> {
     Home(),
     AllAppointment(),
     History(),
-    Text('Wallet'),
+    Wallet(),
     Text('Profile'),
   ];
 

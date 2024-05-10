@@ -56,7 +56,7 @@ var dummyHistory = [
   HistoryModel(
       name: "Dr. Morrin",
       date: DateTime.now(),
-      imageUrl: "assest/images/appoint.png",
+      imageUrl: "assest/images/person.png",
       message: "is that you",
       nochat: 3),
   HistoryModel(
@@ -66,9 +66,27 @@ var dummyHistory = [
       message: "What are you doing",
       nochat: 4),
   HistoryModel(
-      name: "Dr. Janet Joseph",
+      name: "Dr. oluwaseun",
       date: DateTime.now(),
       imageUrl: "assest/images/appoint.png",
       message: "Welecome back!",
+      nochat: 3),
+  HistoryModel(
+      name: "Dr. Tswanya",
+      date: DateTime.now(),
+      imageUrl: "assest/images/person.jpg",
+      message: "Welecome back!",
+      nochat: 3),
+  HistoryModel(
+      name: "Dr. Joseph",
+      date: DateTime.now(),
+      imageUrl: "assest/images/appoint.png",
+      message: "Welecome back!",
+      nochat: 9),
+  HistoryModel(
+      name: "Dr. Vicky",
+      date: DateTime.now(),
+      imageUrl: "assest/images/persons.jpg",
+      message: "how much is my drug",
       nochat: 3)
 ];

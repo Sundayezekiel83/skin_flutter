@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
+import 'package:mobile_skinguru/Model/history.dart';
 import 'package:mobile_skinguru/constants/constants.dart';
+import 'package:mobile_skinguru/data/dummy_data.dart';
 
 class History extends StatelessWidget {
   const History({super.key});
@@ -15,6 +18,7 @@ class History extends StatelessWidget {
     );
     return Container(
       color: backgroundColor,
+      width: double.infinity,
       child: Column(
         children: [
           Padding(
@@ -44,7 +48,14 @@ class History extends StatelessWidget {
             thickness: 1.0,
           ),
           const SizedBox(height: 10),
-          HistoryItem()
+          Expanded(
+            child: ListView.builder(
+              itemCount: dummyHistory.length,
+              itemBuilder: (ctx, index) => HistoryItem(
+                singleHistory: dummyHistory[index],
+              ),
+            ),
+          ),
         ],
       ),
     );
@@ -52,33 +63,87 @@ class History extends StatelessWidget {
 }
 
 class HistoryItem extends StatelessWidget {
-  const HistoryItem({super.key});
+  const HistoryItem({super.key, required this.singleHistory});
+
+  final HistoryModel singleHistory;
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Row(
-        children: [
-          Container(
-            width: 76,
-            height: 76,
-            decoration: const BoxDecoration(
-              shape: BoxShape.circle,
-              image: DecorationImage(
-                image: AssetImage('assest/images/appoint.png'),
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(20),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                children: [
+                  Container(
+                    width: 76,
+                    height: 76,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      border: Border.all(
+                        color: Theme.of(context).colorScheme.primary,
+                        width: 2.0,
+                      ),
+                      image: DecorationImage(
+                        image: AssetImage(singleHistory.imageUrl),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 20),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        singleHistory.name,
+                        style: Theme.of(context)
+                            .textTheme
+                            .titleMedium!
+                            .copyWith(color: Colors.black),
+                      ),
+                      Text(singleHistory.message,
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleMedium!
+                              .copyWith(color: secondaryText)),
+                    ],
+                  ),
+                ],
               ),
-            ),
+              Column(
+                children: [
+                  Text(DateFormat.jm().format(singleHistory.date),
+                      style: Theme.of(context)
+                          .textTheme
+                          .titleMedium!
+                          .copyWith(color: secondaryText)),
+                  Container(
+                    width: 20,
+                    height: 20,
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.primary,
+                      borderRadius: BorderRadius.circular(100),
+                    ),
+                    child: Text(
+                      textAlign: TextAlign.end,
+                      singleHistory.nochat.toString(),
+                      style: Theme.of(context).textTheme.titleMedium,
+                    ),
+                  ),
+                ],
+              )
+            ],
           ),
-          ListTile(
-            title: Text("Dr. John Emmanuel"),
-            subtitle: Text("Welcome home"),
-          ),
-          Container(
-            decoration: BoxDecoration(borderRadius: BorderRadius.circular(100)),
-            child: const Text("2"),
-          )
-        ],
-      ),
+        ),
+        const Divider(
+          color: Color.fromRGBO(0, 0, 0, 0.04),
+          thickness: 1.0,
+        ),
+      ],
     );
   }
 }
