@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_skinguru/constants/constants.dart';
+import 'package:mobile_skinguru/screens/tabs.dart';
 import 'package:mobile_skinguru/widget/button.dart';
 import 'package:mobile_skinguru/widget/custom_onboarding_border.dart';
 import 'package:mobile_skinguru/widget/input_label.dart';
@@ -267,7 +268,13 @@ class _AddtionalInformationState extends State<AddtionalInformation> {
                         },
                       ),
                       const SizedBox(height: 30),
-                      MyButton(text: "Continue", onPressed: () {}),
+                      MyButton(
+                          text: "Continue",
+                          onPressed: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(builder: (cts) => SharedTabs()),
+                            );
+                          }),
                       const SizedBox(height: 30),
                     ],
                   ),

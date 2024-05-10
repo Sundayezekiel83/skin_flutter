@@ -26,13 +26,14 @@ class AppointmentCard extends StatelessWidget {
             ),
           ),
         const SizedBox(height: 10),
-        Card(
+        Container(
           margin: const EdgeInsets.only(left: 20, right: 20, bottom: 20),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
-          ),
-          clipBehavior: Clip.hardEdge,
-          color: const Color.fromRGBO(255, 255, 255, 1),
+          // shape: RoundedRectangleBorder(
+          //   borderRadius: BorderRadius.circular(10),
+          // ),
+          decoration: BoxDecoration(
+              color: Colors.white, borderRadius: BorderRadius.circular(10)),
+
           child: Column(
             children: [
               Padding(
@@ -155,8 +156,12 @@ class AppointmentCard extends StatelessWidget {
                 width: double.infinity,
                 height: 39,
                 alignment: Alignment.center,
-                decoration:
-                    BoxDecoration(color: Theme.of(context).colorScheme.primary),
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.primary,
+                  borderRadius: const BorderRadius.only(
+                      bottomLeft: Radius.circular(10),
+                      bottomRight: Radius.circular(10)),
+                ),
                 // child: Text("how are you doing")
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),

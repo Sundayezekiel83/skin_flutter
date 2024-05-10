@@ -3,6 +3,7 @@ import 'package:mobile_skinguru/Auth/forget_password.dart';
 import 'package:mobile_skinguru/Auth/professionalauth/create_pro_account.dart';
 import 'package:mobile_skinguru/Auth/userauth/create_user_account.dart';
 import 'package:mobile_skinguru/constants/constants.dart';
+import 'package:mobile_skinguru/screens/professonalScreen/shared_pro_tab.dart';
 import 'package:mobile_skinguru/screens/tabs.dart';
 import 'package:mobile_skinguru/widget/button.dart';
 import 'package:mobile_skinguru/widget/signin_option.dart';
@@ -41,11 +42,20 @@ class _LoginState extends State<Login> {
       return;
     }
     _formKey.currentState!.save();
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (ctx) => const SharedTabs(),
-      ),
-    );
+    if (widget.selectedRoute == 0) {
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (ctx) => const SharedTabs(),
+        ),
+      );
+    } else {
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (ctx) => const ShareProTabs(),
+        ),
+      );
+    }
+
     // print(_email);
     // print(_password);
   }
