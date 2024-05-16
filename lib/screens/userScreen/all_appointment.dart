@@ -53,6 +53,8 @@ class AllAppointment extends StatelessWidget {
               itemCount: dummyAppointment.length,
               itemBuilder: (ctx, index) => AppointmentCard(
                 appointment: dummyAppointment[index],
+                dateBg: Theme.of(context).colorScheme.primary,
+                dateColor: Colors.white,
                 showDate: true,
               ),
             ),

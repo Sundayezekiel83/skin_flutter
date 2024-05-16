@@ -1,23 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mobile_skinguru/Auth/create_user_account.dart';
 import 'package:mobile_skinguru/Auth/forget_password.dart';
-import 'package:mobile_skinguru/Auth/professionalauth/create_pro_account.dart';
-import 'package:mobile_skinguru/Auth/userauth/create_user_account.dart';
 import 'package:mobile_skinguru/constants/constants.dart';
+import 'package:mobile_skinguru/providers/select_category.dart';
 import 'package:mobile_skinguru/screens/professonalScreen/shared_pro_tab.dart';
-import 'package:mobile_skinguru/screens/tabs.dart';
+import 'package:mobile_skinguru/screens/userScreen/tabs.dart';
 import 'package:mobile_skinguru/widget/button.dart';
 import 'package:mobile_skinguru/widget/signin_option.dart';
 
-class Login extends StatefulWidget {
-  const Login({super.key, required this.selectedRoute});
-
-  final int selectedRoute;
-
+class Login extends ConsumerStatefulWidget {
+  const Login({super.key});
   @override
-  State<Login> createState() => _LoginState();
+  ConsumerState<Login> createState() => _LoginState();
 }
 
-class _LoginState extends State<Login> {
+class _LoginState extends ConsumerState<Login> {
+  getSelectedValue() {
+    final selectedRoute = ref.watch(selectCategoryProvider);
+    return selectedRoute;
+  }
+
   bool _obscureText = true;
   IconData _iconVisible = Icons.visibility_off;
   void _toggleObscureText() {
@@ -42,7 +46,7 @@ class _LoginState extends State<Login> {
       return;
     }
     _formKey.currentState!.save();
-    if (widget.selectedRoute == 0) {
+    if (getSelectedValue() == 0) {
       Navigator.of(context).push(
         MaterialPageRoute(
           builder: (ctx) => const SharedTabs(),
@@ -51,7 +55,7 @@ class _LoginState extends State<Login> {
     } else {
       Navigator.of(context).push(
         MaterialPageRoute(
-          builder: (ctx) => const ShareProTabs(),
+          builder: (ctx) => const SharedProTabs(),
         ),
       );
     }
@@ -61,19 +65,17 @@ class _LoginState extends State<Login> {
   }
 
   void createAccount() {
-    if (widget.selectedRoute == 0) {
-      Navigator.of(context).push(
-        MaterialPageRoute(builder: (ctx) => const CreateUserAccount()),
-      );
-    } else {
-      Navigator.of(context).push(
-        MaterialPageRoute(builder: (ctx) => const CreateProfessionalAccount()),
-      );
-    }
+    Navigator.of(context).push(
+      MaterialPageRoute(builder: (cts) => const CreateUserAccount()),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+      statusBarColor: Colors.white,
+      statusBarIconBrightness: Brightness.dark, // status bar color
+    ));
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.white,
@@ -110,7 +112,7 @@ class _LoginState extends State<Login> {
                               color: Theme.of(context).colorScheme.primary,
                               width: 2.49)),
                       child: Icon(
-                        widget.selectedRoute == 1
+                        getSelectedValue() == 1
                             ? Icons.engineering_rounded
                             : Icons.person,
                         color: Theme.of(context).colorScheme.primary,

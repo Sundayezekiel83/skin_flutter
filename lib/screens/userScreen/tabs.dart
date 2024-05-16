@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_skinguru/constants/constants.dart';
-import 'package:mobile_skinguru/screens/all_appointment.dart';
-import 'package:mobile_skinguru/screens/history.dart';
-import 'package:mobile_skinguru/screens/home.dart';
-import 'package:mobile_skinguru/screens/profile.dart';
+import 'package:mobile_skinguru/screens/userScreen/all_appointment.dart';
+import 'package:mobile_skinguru/screens/userScreen/history.dart';
+import 'package:mobile_skinguru/screens/userScreen/home.dart';
+import 'package:mobile_skinguru/screens/userScreen/profile.dart';
 import 'package:mobile_skinguru/screens/wallet.dart';
 
 class SharedTabs extends StatefulWidget {

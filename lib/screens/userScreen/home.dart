@@ -200,6 +200,8 @@ class Home extends StatelessWidget {
               itemBuilder: (ctx, index) => AppointmentCard(
                 appointment: dummyAppointment[index],
                 showDate: false,
+                dateBg: Theme.of(context).colorScheme.primary,
+                dateColor: Colors.white,
               ),
             ),
           )

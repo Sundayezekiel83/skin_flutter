@@ -6,9 +6,15 @@ import 'package:mobile_skinguru/widget/dashboard_action.dart';
 
 class AppointmentCard extends StatelessWidget {
   const AppointmentCard(
-      {super.key, required this.appointment, required this.showDate});
+      {super.key,
+      required this.appointment,
+      required this.showDate,
+      required this.dateBg,
+      required this.dateColor});
   final Appointment appointment;
   final bool showDate;
+  final Color dateBg;
+  final Color dateColor;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -157,7 +163,7 @@ class AppointmentCard extends StatelessWidget {
                 height: 39,
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.primary,
+                  color: dateBg,
                   borderRadius: const BorderRadius.only(
                       bottomLeft: Radius.circular(10),
                       bottomRight: Radius.circular(10)),
@@ -171,18 +177,23 @@ class AppointmentCard extends StatelessWidget {
                     children: [
                       Row(
                         children: [
-                          const Icon(Icons.calendar_month_rounded,
-                              color: Colors.white),
+                          Icon(Icons.calendar_month_rounded, color: dateColor),
                           const SizedBox(width: 5),
                           Text(
                             'Date: ${DateFormat('yyyy-MM-dd').format(appointment.date)}',
-                            style: Theme.of(context).textTheme.titleMedium,
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleMedium!
+                                .copyWith(color: dateColor),
                           )
                         ],
                       ),
                       Text(
                         DateFormat('HH:mm:ss').format(appointment.date),
-                        style: Theme.of(context).textTheme.titleMedium,
+                        style: Theme.of(context)
+                            .textTheme
+                            .titleMedium!
+                            .copyWith(color: dateColor),
                       )
                     ],
                   ),

@@ -1,31 +1,50 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mobile_skinguru/Auth/professionalauth/choose_specialization.dart';
 import 'package:mobile_skinguru/constants/constants.dart';
-import 'package:mobile_skinguru/screens/tabs.dart';
+import 'package:mobile_skinguru/providers/select_category.dart';
+import 'package:mobile_skinguru/screens/userScreen/tabs.dart';
 import 'package:mobile_skinguru/widget/button.dart';
 import 'package:mobile_skinguru/widget/custom_onboarding_border.dart';
 import 'package:mobile_skinguru/widget/input_label.dart';
 
-class AddtionalInformation extends StatefulWidget {
+class AddtionalInformation extends ConsumerStatefulWidget {
   const AddtionalInformation({super.key});
 
   @override
-  State<AddtionalInformation> createState() => _AddtionalInformationState();
+  ConsumerState<AddtionalInformation> createState() =>
+      _AddtionalInformationState();
 }
 
-class _AddtionalInformationState extends State<AddtionalInformation> {
-  var _formKey = GlobalKey<FormState>();
+class _AddtionalInformationState extends ConsumerState<AddtionalInformation> {
+  getSelectedValue() {
+    final selectedRoute = ref.watch(selectCategoryProvider);
+    return selectedRoute;
+  }
 
+  var _formKey = GlobalKey<FormState>();
   var _firstName = "";
   var _lastName = "";
   var _gender = "";
   var _date = "";
   var _phone = "";
+
   void onSaved() {
     var isValid = _formKey.currentState!.validate();
-    if (!isValid) {
-      return;
-    }
+    // if (!isValid) {
+    //   return;
+    // }
     _formKey.currentState!.save();
+    if (getSelectedValue() == 0) {
+      Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (cts) => const SharedTabs()));
+    } else {
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (ctx) => const ChooseSpeciliazation(),
+        ),
+      );
+    }
   }
 
   @override
@@ -49,7 +68,9 @@ class _AddtionalInformationState extends State<AddtionalInformation> {
                     ),
                     const SizedBox(width: 60),
                     Text(
-                      "Additional Information",
+                      getSelectedValue() == 0
+                          ? "Additional information"
+                          : "Setup Profile",
                       style: Theme.of(context)
                           .textTheme
                           .titleSmall!
@@ -63,15 +84,25 @@ class _AddtionalInformationState extends State<AddtionalInformation> {
                 thickness: 1.0,
               ),
               const SizedBox(height: 20),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  CustomOnboardingBorder(
-                      color: Theme.of(context).colorScheme.primary, w: 50),
-                  const SizedBox(width: 10),
-                  const CustomOnboardingBorder(color: tertairyColor, w: 30)
-                ],
-              ),
+              if (getSelectedValue() == 0)
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    CustomOnboardingBorder(
+                        color: Theme.of(context).colorScheme.primary, w: 50),
+                    const SizedBox(width: 10),
+                    const CustomOnboardingBorder(color: tertairyColor, w: 30)
+                  ],
+                ),
+              if (getSelectedValue() == 1)
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    CustomOnboardingBorder(
+                        color: Theme.of(context).colorScheme.primary, w: 70),
+                    const CustomOnboardingBorder(color: tertairyColor, w: 230)
+                  ],
+                ),
               const SizedBox(height: 40),
               Form(
                 key: _formKey,
@@ -268,13 +299,7 @@ class _AddtionalInformationState extends State<AddtionalInformation> {
                         },
                       ),
                       const SizedBox(height: 30),
-                      MyButton(
-                          text: "Continue",
-                          onPressed: () {
-                            Navigator.of(context).push(
-                              MaterialPageRoute(builder: (cts) => SharedTabs()),
-                            );
-                          }),
+                      MyButton(text: "Continue", onPressed: onSaved),
                       const SizedBox(height: 30),
                     ],
                   ),

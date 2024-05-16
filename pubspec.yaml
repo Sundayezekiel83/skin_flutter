@@ -39,6 +39,8 @@ dependencies:
   flutter_svg: ^2.0.10+1
   carousel_slider: ^4.2.1
   intl: ^0.19.0
+  riverpod: ^2.5.1
+  flutter_riverpod: ^2.5.1
 
 dev_dependencies:
   flutter_test:
@@ -85,6 +87,10 @@ flutter:
     - assest/images/appoint.png
     - assest/images/Intersect.svg
     - assest/images/profilepx.png
+    - assest/images/post.svg
+    - assest/images/services.svg
+    - assest/images/drug.svg
+    - assest/images/webinar.svg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

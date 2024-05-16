@@ -1,29 +1,39 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mobile_skinguru/Auth/login.dart';
+import 'package:mobile_skinguru/providers/select_category.dart';
 import 'package:mobile_skinguru/widget/button.dart';
 
-class SelectCategory extends StatefulWidget {
+// class SelectCategory extends StatefulWidget {
+//   const SelectCategory({super.key, required this.backScreen});
+
+//   final void Function() backScreen;
+
+//   @override
+//   State<SelectCategory> createState() => _SelectCategoryState();
+// }
+
+class SelectCategory extends ConsumerWidget {
   const SelectCategory({super.key, required this.backScreen});
 
   final void Function() backScreen;
 
-  @override
-  State<SelectCategory> createState() => _SelectCategoryState();
-}
-
-class _SelectCategoryState extends State<SelectCategory> {
-  int _selectedItem = 0;
-
-  void handleAuth() {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (ctx) => Login(selectedRoute: _selectedItem),
-      ),
-    );
-  }
+  // void handleAuth(context) {
+  //   Navigator.of(context).push(
+  //     MaterialPageRoute(
+  //       builder: (ctx) => const Login(),
+  //     ),
+  //   );
+  // }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+      statusBarColor: Colors.white,
+      statusBarIconBrightness: Brightness.dark, // status bar color
+    ));
+    final selectedItem = ref.watch(selectCategoryProvider);
     return SingleChildScrollView(
       child: Column(
         children: [
@@ -33,7 +43,7 @@ class _SelectCategoryState extends State<SelectCategory> {
             child: Row(
               children: [
                 InkWell(
-                  onTap: widget.backScreen,
+                  onTap: backScreen,
                   child: const Icon(Icons.arrow_back_ios_new_rounded),
                 ),
                 const SizedBox(width: 60),
@@ -83,9 +93,9 @@ class _SelectCategoryState extends State<SelectCategory> {
                       children: [
                         GestureDetector(
                           onTap: () {
-                            setState(() {
-                              _selectedItem = 0;
-                            });
+                            ref
+                                .read(selectCategoryProvider.notifier)
+                                .setSelectCategory(0);
                           },
                           child: Container(
                             width: 132,
@@ -94,14 +104,14 @@ class _SelectCategoryState extends State<SelectCategory> {
                               color: const Color.fromRGBO(239, 241, 250, 1),
                               borderRadius: BorderRadius.circular(100.0),
                               border: Border.all(
-                                  color: _selectedItem == 0
+                                  color: selectedItem == 0
                                       ? Theme.of(context).colorScheme.primary
                                       : Colors.transparent,
                                   width: 2.49),
                             ),
                             child: Icon(
                               Icons.person,
-                              color: _selectedItem == 0
+                              color: selectedItem == 0
                                   ? Theme.of(context).colorScheme.primary
                                   : const Color.fromRGBO(131, 137, 168, 1),
                               size: 40,
@@ -117,7 +127,7 @@ class _SelectCategoryState extends State<SelectCategory> {
                               .textTheme
                               .titleMedium!
                               .copyWith(
-                                color: _selectedItem == 0
+                                color: selectedItem == 0
                                     ? Theme.of(context).colorScheme.primary
                                     : const Color.fromRGBO(137, 137, 137, 1),
                               ),
@@ -129,9 +139,9 @@ class _SelectCategoryState extends State<SelectCategory> {
                       children: [
                         GestureDetector(
                           onTap: () {
-                            setState(() {
-                              _selectedItem = 1;
-                            });
+                            ref
+                                .read(selectCategoryProvider.notifier)
+                                .setSelectCategory(1);
                           },
                           child: Container(
                             width: 132,
@@ -140,13 +150,13 @@ class _SelectCategoryState extends State<SelectCategory> {
                                 color: const Color.fromRGBO(239, 241, 250, 1),
                                 borderRadius: BorderRadius.circular(100.0),
                                 border: Border.all(
-                                    color: _selectedItem == 1
+                                    color: selectedItem == 1
                                         ? Theme.of(context).colorScheme.primary
                                         : Colors.transparent,
                                     width: 2.49)),
                             child: Icon(
                               Icons.engineering_rounded,
-                              color: _selectedItem == 1
+                              color: selectedItem == 1
                                   ? Theme.of(context).colorScheme.primary
                                   : const Color.fromRGBO(131, 137, 168, 1),
                               size: 40,
@@ -162,7 +172,7 @@ class _SelectCategoryState extends State<SelectCategory> {
                               .textTheme
                               .titleMedium!
                               .copyWith(
-                                color: _selectedItem == 1
+                                color: selectedItem == 1
                                     ? Theme.of(context).colorScheme.primary
                                     : const Color.fromRGBO(137, 137, 137, 1),
                               ),
@@ -172,7 +182,15 @@ class _SelectCategoryState extends State<SelectCategory> {
                   ],
                 ),
                 const SizedBox(height: 100),
-                MyButton(text: "Continue", onPressed: handleAuth),
+                MyButton(
+                    text: "Continue",
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (cts) => Login(),
+                        ),
+                      );
+                    }),
                 const SizedBox(height: 15),
                 InkWell(
                   onTap: () {},

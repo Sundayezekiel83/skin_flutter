@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_skinguru/Auth/userauth/AdditionalInfo.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mobile_skinguru/Auth/AdditionalInfo.dart';
 import 'package:mobile_skinguru/constants/constants.dart';
+import 'package:mobile_skinguru/providers/select_category.dart';
 import 'package:mobile_skinguru/widget/button.dart';
 import 'package:mobile_skinguru/widget/input_label.dart';
 import 'package:mobile_skinguru/widget/signin_option.dart';
 
-class CreateUserAccount extends StatefulWidget {
+class CreateUserAccount extends ConsumerStatefulWidget {
   const CreateUserAccount({super.key});
 
   @override
-  State<CreateUserAccount> createState() => _CreateUserAccountState();
+  ConsumerState<CreateUserAccount> createState() => _CreateUserAccountState();
 }
 
-class _CreateUserAccountState extends State<CreateUserAccount> {
+class _CreateUserAccountState extends ConsumerState<CreateUserAccount> {
   final _formKey = GlobalKey<FormState>();
   bool _obscureText = true;
   IconData _iconVisible = Icons.visibility_off;
@@ -33,10 +36,10 @@ class _CreateUserAccountState extends State<CreateUserAccount> {
   bool isChecked = false;
 
   void onSaved() {
-    var isValid = _formKey.currentState!.validate();
-    if (!isValid) {
-      return;
-    }
+    // var isValid = _formKey.currentState!.validate();
+    // if (!isValid) {
+    //   return;
+    // }
     _formKey.currentState!.save();
     Navigator.of(context).push(
       MaterialPageRoute(builder: (ctx) => const AddtionalInformation()),
@@ -48,6 +51,12 @@ class _CreateUserAccountState extends State<CreateUserAccount> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+      statusBarColor: Colors.white,
+      statusBarIconBrightness: Brightness.dark, // status bar color
+    ));
+
+    final selectedItem = ref.watch(selectCategoryProvider);
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.white,
@@ -78,13 +87,16 @@ class _CreateUserAccountState extends State<CreateUserAccount> {
                       width: 100,
                       height: 100,
                       decoration: BoxDecoration(
-                          color: const Color.fromRGBO(239, 241, 250, 1),
-                          borderRadius: BorderRadius.circular(100.0),
-                          border: Border.all(
-                              color: Theme.of(context).colorScheme.primary,
-                              width: 2.49)),
+                        color: const Color.fromRGBO(239, 241, 250, 1),
+                        borderRadius: BorderRadius.circular(100.0),
+                        border: Border.all(
+                            color: Theme.of(context).colorScheme.primary,
+                            width: 2.49),
+                      ),
                       child: Icon(
-                        Icons.person,
+                        selectedItem == 0
+                            ? Icons.person
+                            : Icons.engineering_rounded,
                         color: Theme.of(context).colorScheme.primary,
                         size: 40,
                       ),
