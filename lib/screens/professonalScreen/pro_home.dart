@@ -1,13 +1,39 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:mobile_skinguru/constants/constants.dart';
 import 'package:mobile_skinguru/data/dummy_data.dart';
+import 'package:mobile_skinguru/screens/professonalScreen/upload_certificate.dart';
 import 'package:mobile_skinguru/widget/appointment_card.dart';
+import 'package:mobile_skinguru/widget/button.dart';
 import 'package:mobile_skinguru/widget/category_item.dart';
 import 'package:mobile_skinguru/widget/dashboard_action.dart';
 
-class ProHome extends StatelessWidget {
+class ProHome extends StatefulWidget {
   const ProHome({super.key});
+
+  @override
+  State<ProHome> createState() => _ProHomeState();
+}
+
+class _ProHomeState extends State<ProHome> {
+  bool isverifed = false;
+
+  @override
+  void initState() {
+    super.initState();
+    if (!isverifed) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return const CustomDialog();
+          },
+        );
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
@@ -175,6 +201,113 @@ class ProHome extends StatelessWidget {
             ],
           ),
         ],
+      ),
+    );
+  }
+}
+
+class CustomDialog extends StatelessWidget {
+  const CustomDialog({super.key});
+  @override
+  Widget build(BuildContext context) {
+    return Dialog(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20.0),
+      ),
+      elevation: 0.0,
+      backgroundColor: Colors.transparent,
+      child: contentBox(context),
+    );
+  }
+
+  Widget contentBox(BuildContext context) {
+    return Center(
+      child: Container(
+        width: 329,
+        padding: const EdgeInsets.all(20.0),
+        decoration: BoxDecoration(
+          shape: BoxShape.rectangle,
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(20.0),
+          boxShadow: const [
+            BoxShadow(
+              color: Colors.black26,
+              offset: Offset(0, 10),
+              blurRadius: 10.0,
+            ),
+          ],
+        ),
+        child: const VerifyModal(),
+      ),
+    );
+  }
+}
+
+class VerifyModal extends StatelessWidget {
+  const VerifyModal({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return ConstrainedBox(
+      constraints: const BoxConstraints(maxHeight: double.infinity),
+      child: IntrinsicHeight(
+        child: Column(
+          children: [
+            GestureDetector(
+              onTap: () {
+                Navigator.of(context).pop();
+              },
+              child: Container(
+                alignment: Alignment.topRight,
+                child: const DashboardAction(
+                  icon: Icons.highlight_off,
+                  iconBg: tertairyColor,
+                  iconColor: Colors.black,
+                ),
+              ),
+            ),
+            const SizedBox(height: 40),
+            Container(
+              width: 85,
+              height: 85,
+              decoration: BoxDecoration(
+                color: const Color.fromRGBO(239, 241, 250, 1),
+                borderRadius: BorderRadius.circular(100.0),
+              ),
+              child: Icon(
+                Icons.priority_high_rounded,
+                size: 70,
+                color: Theme.of(context).colorScheme.primary,
+              ),
+            ),
+            const SizedBox(height: 10),
+            Text(
+              "Hey! Dr, Sunday Ezekiel",
+              style: GoogleFonts.raleway(
+                  fontWeight: FontWeight.w700, fontSize: 20),
+            ),
+            const SizedBox(height: 10),
+            Text(
+              textAlign: TextAlign.center,
+              "Ready to showcase your expertise? Verify your account to start uploading your fantastic products and services on [Your Skincare App]. Don't miss out—let the world discover your offerings!",
+              style: Theme.of(context)
+                  .textTheme
+                  .titleMedium!
+                  .copyWith(color: secondaryText),
+            ),
+            const SizedBox(height: 30),
+            MyButton(
+                text: "Verify now",
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(
+                      builder: (cts) => const UploadCertificate(),
+                    ),
+                  );
+                })
+          ],
+        ),
       ),
     );
   }

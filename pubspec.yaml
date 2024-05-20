@@ -41,6 +41,7 @@ dependencies:
   intl: ^0.19.0
   riverpod: ^2.5.1
   flutter_riverpod: ^2.5.1
+  file_picker: ^8.0.3
 
 dev_dependencies:
   flutter_test:
@@ -91,6 +92,7 @@ flutter:
     - assest/images/services.svg
     - assest/images/drug.svg
     - assest/images/webinar.svg
+    - assest/images/notverify.svg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
